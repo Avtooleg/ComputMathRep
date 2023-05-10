@@ -279,58 +279,58 @@ limit_conditions = [start_condition, left_condition, right_condition, top_condit
 limit_place_functions = [start_place, left_place, right_place, top_place, bottom_place]
 
 #Code for getting the graph data
-# error_arr = []
-# with open("./error_result.csv", "w") as f:
-#     f.write("nods,error\n")
-#     for nods in range(3,150):
-#         l, m, n = nods, nods, nods
-#         computed_u = u_process(l, m, n, k_function, compute_abcf, limit_conditions,
-#                                limit_place_functions, compute_timeslice, tolerance=1e-6)
-#         analit_u = get_analit_on_grid(l, m, n)
-#         error = error_calculator(computed_u, analit_u)
-#         error_arr.append((nods,error))
-#         f.write(f"{nods},{error}\n")
-#
+error_arr = []
+with open("./error_result_2.csv", "w") as f:
+    f.write("nods,error\n")
+    for nods in range(60, 240, 10):
+        l, m, n = nods, nods, nods
+        computed_u = u_process(l, m, n, k_function, compute_abcf, limit_conditions,
+                               limit_place_functions, compute_timeslice, tolerance=1e-10)
+        analit_u = get_analit_on_grid(l, m, n)
+        error = error_calculator(computed_u, analit_u)
+        error_arr.append((nods,error))
+        f.write(f"{nods},{error}\n")
+
 #
 # plt.plot([val[0] for val in error_arr], [val[1] for val in error_arr])
 # plt.show()
 
-l, m, n = 5, 5, 5
+# l, m, n = 5, 5, 5
+#
+# computed_u = u_process(l, m, n, k_function, compute_abcf, limit_conditions,
+#                        limit_place_functions, compute_timeslice, tolerance=1e-6)
 
-computed_u = u_process(l, m, n, k_function, compute_abcf, limit_conditions,
-                       limit_place_functions, compute_timeslice, tolerance=1e-6)
-
-analit_u = get_analit_on_grid(l, m, n)
-diff_u = abs(computed_u - analit_u)
-diff_u = diff_u/diff_u.max()
-
-fig = plt.figure(figsize=(14,7))
-# ax = plt.axes(xlim=(0, m), ylim=(0, l))
-ax_plot = plt.subplot(121)
-ax_analit = plt.subplot(122)
-ax_plot.set_xlim((0, m))
-ax_analit.set_xlim((0, m))
-ax_plot.set_ylim((0, l))
-ax_analit.set_ylim((0, l))
-
-ax_analit.set_title("Карта ошибки")
-ax_plot.set_title("Карта тепла")
-
-im_plot = ax_plot.imshow(computed_u[0])
-im_diff = ax_analit.imshow(diff_u[1])
-
-# initialization function: plot the background of each frame
-def init():
-    im_plot.set_data(computed_u[0])
-    im_diff.set_data(diff_u[0])
-    return (im_plot, im_diff)
-
-# animation function.  This is called sequentially
-def animate(i):
-    im_plot.set_data(computed_u[i])
-    im_diff.set_data(diff_u[i])
-    return (im_plot, im_diff)
-
-anim = FuncAnimation(fig, animate, init_func=init,
-                               frames=n, interval=100, blit=True, repeat=True)
-plt.show()
+# analit_u = get_analit_on_grid(l, m, n)
+# diff_u = abs(computed_u - analit_u)
+# diff_u = diff_u/diff_u.max()
+#
+# fig = plt.figure(figsize=(14,7))
+# # ax = plt.axes(xlim=(0, m), ylim=(0, l))
+# ax_plot = plt.subplot(121)
+# ax_analit = plt.subplot(122)
+# ax_plot.set_xlim((0, m))
+# ax_analit.set_xlim((0, m))
+# ax_plot.set_ylim((0, l))
+# ax_analit.set_ylim((0, l))
+#
+# ax_analit.set_title("Карта ошибки")
+# ax_plot.set_title("Карта тепла")
+#
+# im_plot = ax_plot.imshow(computed_u[0])
+# im_diff = ax_analit.imshow(diff_u[1])
+#
+# # initialization function: plot the background of each frame
+# def init():
+#     im_plot.set_data(computed_u[0])
+#     im_diff.set_data(diff_u[0])
+#     return (im_plot, im_diff)
+#
+# # animation function.  This is called sequentially
+# def animate(i):
+#     im_plot.set_data(computed_u[i])
+#     im_diff.set_data(diff_u[i])
+#     return (im_plot, im_diff)
+#
+# anim = FuncAnimation(fig, animate, init_func=init,
+#                                frames=n, interval=100, blit=True, repeat=True)
+# plt.show()

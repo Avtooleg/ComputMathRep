@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-dataframe = pd.read_csv("./error_result.csv")
+dataframe = pd.read_csv("./error_result_2.csv")
 nods = np.array(dataframe["nods"])
 errors = np.array(dataframe["error"])
 
